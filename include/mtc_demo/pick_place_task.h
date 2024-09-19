@@ -61,7 +61,7 @@
 
 #pragma once
 
-namespace moveit_task_constructor_demo {
+namespace mtc_demo {
 using namespace moveit::task_constructor;
 
 // prepare a demo environment from ROS parameters under node
@@ -83,4 +83,4 @@ private:
 	std::string task_name_;
 	moveit::task_constructor::TaskPtr task_;
 };
-}  // namespace moveit_task_constructor_demo
+}  // namespace mtc_demo

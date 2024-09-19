@@ -15,7 +15,7 @@ using namespace moveit::task_constructor;
 /* ComputeIK(FixedState) */
 int main(int argc, char** argv) {
 	rclcpp::init(argc, argv);
-	auto node = rclcpp::Node::make_shared("moveit_task_constructor_demo");
+	auto node = rclcpp::Node::make_shared("mtc_demo");
 	std::thread spinning_thread([node] { rclcpp::spin(node); });
 
 	const auto param_listener = std::make_shared<ik_clearance_cost_demo::ParamListener>(node);

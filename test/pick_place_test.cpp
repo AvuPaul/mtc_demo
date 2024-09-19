@@ -9,7 +9,7 @@
 
 #include <ros/ros.h>
 
-#include <moveit_task_constructor_demo/pick_place_task.h>
+#include <mtc_demo/pick_place_task.h>
 
 #include <gtest/gtest.h>
 
@@ -18,10 +18,10 @@ using namespace moveit::task_constructor;
 TEST(PickPlaceDemo, run) {
 	ros::NodeHandle nh, pnh("~");
 
-	moveit_task_constructor_demo::setupDemoScene(pnh);
+	mtc_demo::setupDemoScene(pnh);
 
 	// Construct and run pick/place task
-	moveit_task_constructor_demo::PickPlaceTask pick_place_task("pick_place_task", pnh);
+	mtc_demo::PickPlaceTask pick_place_task("pick_place_task", pnh);
 
 	ASSERT_TRUE(pick_place_task.init());
 

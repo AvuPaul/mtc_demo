@@ -9,8 +9,8 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
     moveit_config = (
-        MoveItConfigsBuilder("moveit_resources_panda")
-        .robot_description(file_path="config/panda.urdf.xacro")
+        MoveItConfigsBuilder("gen3", package_name="kinova_gen3_7dof_robotiq_2f_85_moveit_config")
+        # .robot_description(mappings=launch_arguments)
         .to_moveit_configs()
     )
 
@@ -18,7 +18,7 @@ def generate_launch_description():
     package_shared_path = get_package_share_directory(package)
     node = Node(
         package=package,
-        executable=LaunchConfiguration("exe"),
+        executable="pick_place_demo",
         output="screen",
         parameters=[
             moveit_config.robot_description,
@@ -26,9 +26,9 @@ def generate_launch_description():
             moveit_config.robot_description_kinematics,
             moveit_config.joint_limits,
             moveit_config.planning_pipelines,
-            os.path.join(package_shared_path, "config", "panda_config.yaml"),
+            os.path.join(package_shared_path, "config", "gen3_config.yaml"),
         ],
     )
 
-    arg = DeclareLaunchArgument(name="exe")
-    return LaunchDescription([arg, node])
+    # arg = DeclareLaunchArgument(name="exe")
+    return LaunchDescription([node])

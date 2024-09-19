@@ -1,4 +1,4 @@
-# moveit_task_constructor_demo
+# mtc_demo
 
 Description: A simple pick & place demo using MoveIt Task Constructor. This uses the Panda from Franka Emika
 
@@ -8,5 +8,5 @@ Developed by Henning Kayser & Simon Goldstein at [PickNik Consulting](http://pic
 
 Run demo
 
-    ros2 launch moveit_task_constructor_demo demo.launch.py
+    ros2 launch mtc_demo demo.launch.py
 # mtc_demo

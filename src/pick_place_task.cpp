@@ -35,12 +35,12 @@
 */
 
 #include <Eigen/Geometry>
-#include <moveit_task_constructor_demo/pick_place_task.h>
+#include <mtc_demo/pick_place_task.h>
 #include <geometry_msgs/msg/pose.hpp>
 #include <tf2_eigen/tf2_eigen.hpp>
 #include "pick_place_demo_parameters.hpp"
 
-static const rclcpp::Logger LOGGER = rclcpp::get_logger("moveit_task_constructor_demo");
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("mtc_demo");
 
 namespace {
 Eigen::Isometry3d vectorToEigen(const std::vector<double>& values) {
@@ -54,7 +54,7 @@ geometry_msgs::msg::Pose vectorToPose(const std::vector<double>& values) {
 };
 }  // namespace
 
-namespace moveit_task_constructor_demo {
+namespace mtc_demo {
 
 void spawnObject(moveit::planning_interface::PlanningSceneInterface& psi,
                  const moveit_msgs::msg::CollisionObject& object) {
@@ -473,4 +473,4 @@ bool PickPlaceTask::execute() {
 
 	return true;
 }
-}  // namespace moveit_task_constructor_demo
+}  // namespace mtc_demo
