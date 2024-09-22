@@ -12,7 +12,7 @@ Panels:
         - /TF1
         - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.4217907190322876
-    Tree Height: 1240
+    Tree Height: 432
   - Class: rviz_common/Help
     Name: Help
   - Class: rviz_common/Views
@@ -29,20 +29,20 @@ Panels:
     Name: Motion Planning Tasks
     Tasks View:
       property_splitter:
-        - 680
-        - 480
+        - 236
+        - 167
       solution_sorting:
         column: 0
         order: 1
       solutions_splitter:
-        - 911
-        - 937
+        - 418
+        - 429
       solutions_view_columns: ~
       tasks_view_columns:
-        - 734
-        - 53
-        - 53
-        - 69
+        - 329
+        - 26
+        - 26
+        - 35
 Visualization Manager:
   Class: ""
   Displays:
@@ -360,26 +360,6 @@ Visualization Manager:
           Value: false
         half_arm_2_link:
           Value: false
-        imu_link:
-          Value: false
-        left_front_wheel:
-          Value: false
-        left_rear_wheel:
-          Value: false
-        lidar_link_gazebo:
-          Value: false
-        main_body:
-          Value: false
-        origin_base_link:
-          Value: false
-        os_sensor:
-          Value: false
-        ouster_base:
-          Value: false
-        right_front_wheel:
-          Value: false
-        right_rear_wheel:
-          Value: false
         robotiq_85_base_link:
           Value: false
         robotiq_85_left_finger_link:
@@ -404,18 +384,6 @@ Visualization Manager:
           Value: false
         spherical_wrist_2_link:
           Value: false
-        us_center_front_link:
-          Value: false
-        us_center_rear_link:
-          Value: false
-        us_left_front_link:
-          Value: false
-        us_left_rear_link:
-          Value: false
-        us_right_front_link:
-          Value: false
-        us_right_rear_link:
-          Value: false
         world:
           Value: false
       Marker Scale: 1
@@ -425,64 +393,7 @@ Visualization Manager:
       Show Names: false
       Tree:
         world:
-          origin_base_link:
-            main_body:
-              camera_link:
-                {}
-              gen3_base:
-                base_link:
-                  shoulder_link:
-                    half_arm_1_link:
-                      half_arm_2_link:
-                        forearm_link:
-                          spherical_wrist_1_link:
-                            spherical_wrist_2_link:
-                              bracelet_link:
-                                end_effector_link:
-                                  camera_color_frame:
-                                    {}
-                                  camera_depth_frame:
-                                    {}
-                                  robotiq_85_base_link:
-                                    robotiq_85_left_inner_knuckle_link:
-                                      {}
-                                    robotiq_85_left_knuckle_link:
-                                      robotiq_85_left_finger_link:
-                                        robotiq_85_left_finger_tip_link:
-                                          {}
-                                    robotiq_85_right_inner_knuckle_link:
-                                      {}
-                                    robotiq_85_right_knuckle_link:
-                                      robotiq_85_right_finger_link:
-                                        robotiq_85_right_finger_tip_link:
-                                          {}
-              imu_link:
-                {}
-              left_front_wheel:
-                {}
-              left_rear_wheel:
-                {}
-              ouster_base:
-                lidar_link_gazebo:
-                  {}
-                os_sensor:
-                  {}
-              right_front_wheel:
-                {}
-              right_rear_wheel:
-                {}
-              us_center_front_link:
-                {}
-              us_center_rear_link:
-                {}
-              us_left_front_link:
-                {}
-              us_left_rear_link:
-                {}
-              us_right_front_link:
-                {}
-              us_right_rear_link:
-                {}
+          {}
       Update Interval: 0
       Value: true
     - Acceleration_Scaling_Factor: 0.1
@@ -585,82 +496,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_front_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_rear_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        lidar_link_gazebo:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        main_body:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        origin_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        os_sensor:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        ouster_base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_front_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_rear_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        us_center_front_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        us_center_rear_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        us_left_front_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        us_left_rear_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        us_right_front_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        us_right_rear_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
       Mass Properties:
         Inertia: false
         Mass: false
@@ -705,12 +540,12 @@ Visualization Manager:
       Pitch: 0.3949998617172241
       Target Frame: world
       Value: Orbit (rviz_default_plugins)
-      Yaw: 5.385178089141846
+      Yaw: 5.380177974700928
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 2752
+  Height: 1043
   Help:
     collapsed: false
   Hide Left Dock: false
@@ -723,9 +558,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000002000000000000074000000a2efc0200000008fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000007000fffffffb000000100044006900730070006c00610079007301000000690000053c0000017800fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006700000001d5000002230000028e00fffffffb0000000800480065006c0070000000029a0000006e000000cf00fffffffb000000120020002d00200053006c00690064006500720000000000ffffffff0000000000000000fb0000003c004d006f00740069006f006e00200050006c0061006e006e0069006e00670020005400610073006b00730020002d00200053006c00690064006500720000000000ffffffff0000007000fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000002a004d006f00740069006f006e00200050006c0061006e006e0069006e00670020005400610073006b007301000005b1000004e6000001ac00ffffff00000001000001c9000006a4fc0200000001fb0000000a005600690065007700730000000069000006a40000012300ffffff00000c5400000a2e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000020000000000000353000003bdfc0200000008fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b000001eb000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006700000001d5000002230000016900fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb000000120020002d00200053006c00690064006500720000000000ffffffff0000000000000000fb0000003c004d006f00740069006f006e00200050006c0061006e006e0069006e00670020005400610073006b00730020002d00200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000002a004d006f00740069006f006e00200050006c0061006e006e0069006e00670020005400610073006b0073010000022c000001cc000000e300ffffff00000001000001c9000006a4fc0200000001fb0000000a005600690065007700730000000069000006a4000000a000ffffff00000427000003bd00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 5024
-  X: 96
-  Y: 54
+  Width: 1920
+  X: 1920
+  Y: 0

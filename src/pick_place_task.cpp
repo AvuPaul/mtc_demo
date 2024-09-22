@@ -89,13 +89,62 @@ moveit_msgs::msg::CollisionObject createObject(const pick_place_task_demo::Param
 	return object;
 }
 
+moveit_msgs::msg::CollisionObject createOriginOne(const pick_place_task_demo::Params& params) {
+	geometry_msgs::msg::Pose pose = vectorToPose(params.origin_one_pose);
+	moveit_msgs::msg::CollisionObject object;
+	object.id = params.origin_one_name;
+	object.header.frame_id = params.origin_one_frame;
+	object.primitives.resize(6);
+	object.primitives[0].type = shape_msgs::msg::SolidPrimitive::BOX;
+	object.primitives[0].dimensions = { params.origin_one_dimensions.at(0), params.origin_one_dimensions.at(1),
+		                                 params.origin_one_dimensions.at(2) };
+	pose.position.z += 0.5 * params.origin_one_dimensions[2];  // align surface with world
+	object.primitive_poses.push_back(pose);
+	// add wheels
+	object.primitives[1].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
+	object.primitives[1].dimensions = { params.origin_one_wheel_dimensions.at(0), params.origin_one_wheel_dimensions.at(1) };
+	geometry_msgs::msg::Pose wheel_FL = vectorToPose(params.origin_one_wheel_pose);
+	wheel_FL.position.z += params.origin_one_wheel_dimensions[1];
+	object.primitive_poses.push_back(wheel_FL);
+	object.primitives[2].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
+	object.primitives[2].dimensions = { params.origin_one_wheel_dimensions.at(0), params.origin_one_wheel_dimensions.at(1) };
+	geometry_msgs::msg::Pose wheel_FR = vectorToPose(params.origin_one_wheel_pose);
+	wheel_FR.position.y = -1*params.origin_one_wheel_pose.at(1);
+	wheel_FR.position.z += params.origin_one_wheel_dimensions[1];
+	object.primitive_poses.push_back(wheel_FR);
+	object.primitives[3].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
+	object.primitives[3].dimensions = { params.origin_one_wheel_dimensions.at(0), params.origin_one_wheel_dimensions.at(1) };
+	geometry_msgs::msg::Pose wheel_RL = vectorToPose(params.origin_one_wheel_pose);
+	wheel_RL.position.x = -1*params.origin_one_wheel_pose.at(0);
+	wheel_RL.position.z += params.origin_one_wheel_dimensions[1];
+	object.primitive_poses.push_back(wheel_RL);
+	object.primitives[4].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
+	object.primitives[4].dimensions = { params.origin_one_wheel_dimensions.at(0), params.origin_one_wheel_dimensions.at(1) };
+	geometry_msgs::msg::Pose wheel_RR = vectorToPose(params.origin_one_wheel_pose);
+	wheel_RR.position.x = -1*params.origin_one_wheel_pose.at(0);
+	wheel_RR.position.y = -1*params.origin_one_wheel_pose.at(1);
+	wheel_RR.position.z += params.origin_one_wheel_dimensions[1];
+	object.primitive_poses.push_back(wheel_RR);
+	// add lidar
+	object.primitives[5].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
+	object.primitives[5].dimensions = { params.origin_one_lidar_dimensions.at(0), params.origin_one_lidar_dimensions.at(1) };
+	geometry_msgs::msg::Pose lidar = vectorToPose(params.origin_one_lidar_pose);
+	lidar.position.z += params.origin_one_lidar_dimensions[1] + params.origin_one_dimensions[2];
+	object.primitive_poses.push_back(lidar);
+	return object;
+}
+
 void setupDemoScene(const pick_place_task_demo::Params& params) {
 	// Add table and object to planning scene
 	rclcpp::sleep_for(std::chrono::microseconds(100));  // Wait for ApplyPlanningScene service
 	moveit::planning_interface::PlanningSceneInterface psi;
+	std::vector<std::string> object_ids = psi.getKnownObjectNames();
+	psi.removeCollisionObjects(object_ids);
 	if (params.spawn_table)
 		spawnObject(psi, createTable(params));
 	spawnObject(psi, createObject(params));
+	if (params.spawn_origin_one)
+		spawnObject(psi, createOriginOne(params));
 }
 
 PickPlaceTask::PickPlaceTask(const std::string& task_name) : task_name_(task_name) {}
@@ -110,6 +159,7 @@ bool PickPlaceTask::init(const rclcpp::Node::SharedPtr& node, const pick_place_t
 
 	// Individual movement stages are collected within the Task object
 	Task& t = *task_;
+	t.clear();
 	t.stages()->setName(task_name_);
 	t.loadRobotModel(node);
 
@@ -118,12 +168,20 @@ bool PickPlaceTask::init(const rclcpp::Node::SharedPtr& node, const pick_place_t
 	// Sampling planner
 	auto sampling_planner = std::make_shared<solvers::PipelinePlanner>(node);
 	sampling_planner->setProperty("goal_joint_tolerance", 1e-5);
+	sampling_planner->setMaxVelocityScalingFactor(params.sampling_planner_MaxVelScaling);
+	sampling_planner->setMaxAccelerationScalingFactor(params.sampling_planner_MaxAccScaling);
+	// sampling_planner->setPlannerId("pilz_industrial_motion_planner");
 
 	// Cartesian planner
 	auto cartesian_planner = std::make_shared<solvers::CartesianPath>();
-	cartesian_planner->setMaxVelocityScalingFactor(1.0);
-	cartesian_planner->setMaxAccelerationScalingFactor(1.0);
-	cartesian_planner->setStepSize(.01);
+	cartesian_planner->setMaxVelocityScalingFactor(params.cartesian_planner_MaxVelScaling);
+	cartesian_planner->setMaxAccelerationScalingFactor(params.cartesian_planner_MaxAccScaling);
+	cartesian_planner->setStepSize(.1);
+
+	// Interpolation planner
+	auto interpolation_planner = std::make_shared<solvers::JointInterpolationPlanner>();
+	interpolation_planner->setMaxVelocityScalingFactor(params.interpolation_planner_MaxVelScaling);
+	interpolation_planner->setMaxAccelerationScalingFactor(params.interpolation_planner_MaxAccScaling);
 
 	// Set task properties
 	t.setProperty("group", params.arm_group_name);
@@ -160,7 +218,7 @@ bool PickPlaceTask::init(const rclcpp::Node::SharedPtr& node, const pick_place_t
 	 ***************************************************/
 	Stage* initial_state_ptr = nullptr;
 	{
-		auto stage = std::make_unique<stages::MoveTo>("open hand", sampling_planner);
+		auto stage = std::make_unique<stages::MoveTo>("open hand", interpolation_planner);
 		stage->setGroup(params.hand_group_name);
 		stage->setGoal(params.hand_open_pose);
 		initial_state_ptr = stage.get();  // remember start state for monitoring grasp pose generator
@@ -247,6 +305,10 @@ bool PickPlaceTask::init(const rclcpp::Node::SharedPtr& node, const pick_place_t
 			    params.object_name,
 			    t.getRobotModel()->getJointModelGroup(params.hand_group_name)->getLinkModelNamesWithCollisionGeometry(),
 			    true);
+			stage->allowCollisions(
+				params.object_name,
+				params.table_name,
+				true);
 			grasp->insert(std::move(stage));
 		}
 
@@ -254,7 +316,7 @@ bool PickPlaceTask::init(const rclcpp::Node::SharedPtr& node, const pick_place_t
   ---- *               Close Hand                      *
 		 ***************************************************/
 		{
-			auto stage = std::make_unique<stages::MoveTo>("close hand", sampling_planner);
+			auto stage = std::make_unique<stages::MoveTo>("close hand", interpolation_planner);
 			stage->setGroup(params.hand_group_name);
 			stage->setGoal(params.hand_close_pose);
 			grasp->insert(std::move(stage));
@@ -416,7 +478,7 @@ bool PickPlaceTask::init(const rclcpp::Node::SharedPtr& node, const pick_place_t
 		{
 			auto stage = std::make_unique<stages::MoveRelative>("retreat after place", cartesian_planner);
 			stage->properties().configureInitFrom(Stage::PARENT, { "group" });
-			stage->setMinMaxDistance(.12, .25);
+			stage->setMinMaxDistance(params.approach_object_min_dist, params.approach_object_max_dist);
 			stage->setIKFrame(params.hand_frame);
 			stage->properties().set("marker_ns", "retreat");
 			geometry_msgs::msg::Vector3Stamped vec;
@@ -464,7 +526,23 @@ bool PickPlaceTask::execute() {
 	RCLCPP_INFO(LOGGER, "Executing solution trajectory");
 	moveit_msgs::msg::MoveItErrorCodes execute_result;
 
-	execute_result = task_->execute(*task_->solutions().front());
+	// Ensure there are solutions available
+    if (task_->solutions().empty()) {
+        RCLCPP_ERROR(LOGGER, "No solutions found to execute");
+        return false;
+    }
+
+	// Find the solution with the lowest cost
+    auto lowest_cost_solution = std::min_element(
+        task_->solutions().begin(), task_->solutions().end(),
+        [](const auto& a, const auto& b) {
+            return a->cost() < b->cost();
+        });
+
+    // Execute the lowest cost solution
+    execute_result = task_->execute(**lowest_cost_solution);
+
+	// execute_result = task_->execute(*task_->solutions().front());
 
 	if (execute_result.val != moveit_msgs::msg::MoveItErrorCodes::SUCCESS) {
 		RCLCPP_ERROR_STREAM(LOGGER, "Task execution failed and returned: " << execute_result.val);

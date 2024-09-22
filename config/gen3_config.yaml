@@ -1,7 +1,10 @@
 /**:
   ros__parameters:
+    # Execute the task
+    execute: true
+
     # Total planning attempts
-    max_solutions: 10
+    max_solutions: 20
 
     # Planning group and link names
     arm_group_name: "manipulator"
@@ -19,36 +22,51 @@
     table_reference_frame: "world"
     object_reference_frame: "world"
     surface_link: "table"
+    origin_one_frame: "world"
 
     # Collision object for picking
     # CYLINDER object specifications
     object_name: "object"
-    object_dimensions: [0.25, 0.02] # [height, radius]
-    object_pose: [0.5, -0.25, 0.0, 0.0, 0.0, 0.0]
+    # object_dimensions: [0.25, 0.025] # [height, radius] wc rol
+    object_dimensions: [0.15, 0.03] # [height, radius] cola blikje 33cl
+    object_pose: [0.8, -0.1, 0.0, 0.0, 0.0, 0.0]
 
     # Robot model
-    # spawn_origin: false
-    # robot_name: "origin"
-    # robot_dimensions: [0.4, 0.4, 0.4]  # [length, width, height]
-    # robot_pose: [0.5, 0.25, 0.0, 0.0, 0.0, 0.0]
+    spawn_origin_one: true
+    origin_one_name: "origin_one"
+    origin_one_dimensions: [0.7, 0.4, 0.20]  # [length, width, height]
+    origin_one_pose: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    origin_one_wheel_dimensions: [0.1, 0.12]  # [height, radius]
+    origin_one_wheel_pose: [0.205, 0.25, 0.0, 1.5708, 0.0, 0.0]
+    origin_one_lidar_dimensions: [0.15, 0.055]
+    origin_one_lidar_pose: [0.265, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     # Table model
     spawn_table: true
     table_name: "table"
-    table_dimensions: [0.4, 0.5, 0.1]  # [length, width, height]
-    table_pose: [0.5, -0.25, 0.0, 0.0, 0.0, 0.0]
+    table_dimensions: [2.5, 2.5, 0.03]  # [length, width, height]
+    table_pose: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     # Gripper grasp frame transform [x,y,z,r,p,y]
-    grasp_frame_transform: [0.0, 0.0, 0.12, -1.571, 0.0, 1.571]
+    grasp_frame_transform: [0.0, 0.0, 0.127, -1.571, 0.0, 1.571]
 
     # Place pose [x,y,z,r,p,y]
-    place_pose: [0.6, -0.15, 0.0, 0.0, 0.0, 0.0]
+    place_pose: [0.8, 0.15, 0.0, 0.0, 0.0, 0.0]
+    # place_pose: [0.8, -0.1, 0.0, 0.0, 0.0, 0.0]
     place_surface_offset: 0.0001 # place offset from table
 
     # Valid distance range when approaching an object for picking
-    approach_object_min_dist: 0.1
-    approach_object_max_dist: 0.15
+    approach_object_min_dist: 0.06
+    approach_object_max_dist: 0.2
 
     # Valid height range when lifting an object after pick
     lift_object_min_dist: 0.01
     lift_object_max_dist: 0.1
+
+    # Max velocity and acceleration scaling factors
+    sampling_planner_MaxVelScaling: 0.3
+    sampling_planner_MaxAccScaling: 0.3
+    cartesian_planner_MaxVelScaling: 0.2
+    cartesian_planner_MaxAccScaling: 0.1
+    interpolation_planner_MaxVelScaling: 0.5
+    interpolation_planner_MaxAccScaling: 0.5

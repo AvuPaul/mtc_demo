@@ -18,6 +18,38 @@ pick_place_task_demo:
     type: double_array
     validation:
       fixed_size<>: [6]
+  origin_one_name:
+    type: string
+    validation:
+      not_empty<>: []
+  origin_one_frame:
+    type: string
+    validation:
+      not_empty<>: []
+  origin_one_dimensions:
+    type: double_array
+    validation:
+      fixed_size<>: [3]
+  origin_one_pose:
+    type: double_array
+    validation:
+      fixed_size<>: [6]
+  origin_one_wheel_dimensions:
+    type: double_array
+    validation:
+      fixed_size<>: [2]
+  origin_one_wheel_pose: 
+    type: double_array
+    validation:
+      fixed_size<>: [6]
+  origin_one_lidar_dimensions:
+    type: double_array
+    validation:
+      fixed_size<>: [2]
+  origin_one_lidar_pose: 
+    type: double_array
+    validation:
+      fixed_size<>: [6]
   object_name:
     type: string
     validation:
@@ -35,6 +67,9 @@ pick_place_task_demo:
     validation:
       fixed_size<>: [6]
   spawn_table:
+    type: bool
+    default_value: true
+  spawn_origin_one:
     type: bool
     default_value: true
   max_solutions:
@@ -94,4 +129,16 @@ pick_place_task_demo:
   lift_object_min_dist:
     type: double
   lift_object_max_dist:
+    type: double
+  sampling_planner_MaxVelScaling:
+    type: double
+  sampling_planner_MaxAccScaling: 
+    type: double
+  cartesian_planner_MaxVelScaling:  
+    type: double
+  cartesian_planner_MaxAccScaling:
+    type: double
+  interpolation_planner_MaxVelScaling:
+    type: double
+  interpolation_planner_MaxAccScaling: 
     type: double
